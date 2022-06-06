@@ -16,6 +16,7 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('section_id');
+            $table->string('drop_status')->nullable();
             $table->string('facebook_id')->nullable();
             $table->string('student_id');
             $table->string('first_name');
@@ -26,7 +27,7 @@ class CreateStudentsTable extends Migration
             $table->string('contact_number');
             $table->string('email');
             $table->timestamps();
-        });
+        });;
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class ForgotPasswordController extends Controller
 {
-     public function forgot() {
+    public function forgot() {
         
         $credentials = request()->validate(['email' => 'required|email']);
         $findEmail = User::where('email', $credentials)->first();

@@ -22,4 +22,8 @@ class Student extends Model
         'contact_number',
         'email',
     ];
+    public function section()
+    {
+        return $this->belongsTo(Section::class)->select(['id','section']);
+    }
 }

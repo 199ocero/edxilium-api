@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor;
 use App\Models\User;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -12,15 +12,15 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         $data = $request->validate([
-            'username' => 'required|unique:users,username|string',
             'role' => 'required|string',
+            'status' => 'required|string',
             'email' => 'required|unique:users,email|string',
             'password' => 'required|confirmed|string',
         ]);
         if($data['role']=='instructor'){
             $instructor = User::create([
-                'username' => $data['username'],
                 'role' => $data['role'],
+                'status' => $data['status'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
             ]);
@@ -36,8 +36,8 @@ class AuthController extends Controller
             return response($response,201);
         }else{
             $admin = User::create([
-                'username' => $data['username'],
                 'role' => $data['role'],
+                'status' => $data['status'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
             ]);
@@ -48,9 +48,7 @@ class AuthController extends Controller
                 'token' => $token
             ];
             return response($response,201);
-        }
-        
-        
+        }  
         
     }
     public function login(Request $request){
@@ -99,10 +97,6 @@ class AuthController extends Controller
                 ]);
             }
         }
-
-        
-       
-        
     }
     
     public function logout(Request $request){
@@ -113,7 +107,6 @@ class AuthController extends Controller
         ];
         return response($response,200);
     }
-
     public function role(){
         $user = auth()->user();
         $user = $user->role;

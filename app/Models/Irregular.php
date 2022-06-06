@@ -6,16 +6,14 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Subject extends Model
+class Irregular extends Model
 {
-   use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens;
     
     protected $fillable = [
-        'subject',
-        'year_level',
+        'instructor_id',
+        'section_id',
+        'subject_id',
+        'student_id',
     ];
-    public function assign()
-    {
-        return $this->hasMany(Assign::class);
-    }
 }

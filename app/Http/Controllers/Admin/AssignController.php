@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\AdminController;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Assign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Instructor;
 use Illuminate\Validation\ValidationException;
 
 class AssignController extends Controller
@@ -51,7 +52,7 @@ class AssignController extends Controller
                 'subject_id' => 'required',
                 'school_year_id' => 'required',
             ]);
-
+           
             $assignName = Assign::where('instructor_id',$data['instructor_id'])
                             ->where('subject_id',$data['subject_id'])
                             ->where('school_year_id',$data['school_year_id'])
@@ -73,8 +74,8 @@ class AssignController extends Controller
             ];
 
             return response($response,201);
-            }
-
+            
+        }
             
         }else{
              $response = [
@@ -92,7 +93,6 @@ class AssignController extends Controller
      */
     public function show($id)
     {
-        
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){

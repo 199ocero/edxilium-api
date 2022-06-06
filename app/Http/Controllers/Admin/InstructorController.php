@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AdminController;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Mail\Credentials;
@@ -32,11 +32,7 @@ class InstructorController extends Controller
             $response = [
                 'message' => 'User unauthorized.',
             ];
-            return response($response,401);
         }
-       
-
-        
     }
     public function getInstructor()
     {
@@ -55,8 +51,6 @@ class InstructorController extends Controller
             ];
             return response($response,401);
         }
-       
-
         
     }
 
@@ -112,8 +106,6 @@ class InstructorController extends Controller
             ];
             return response($response,401);
         }
-        
-        
     }
 
     /**
@@ -124,7 +116,7 @@ class InstructorController extends Controller
      */
     public function show($id)
     {
-        $user = auth()->user();
+       $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
             $instructor = Instructor::where('instructor_id',$id)->first();
@@ -140,7 +132,6 @@ class InstructorController extends Controller
             ];
             return response($response,401);
         }
-        
     }
 
     /**
@@ -192,7 +183,6 @@ class InstructorController extends Controller
             ];
             return response($response,401);
         }
-       
     }
 
     /**
@@ -225,8 +215,6 @@ class InstructorController extends Controller
             ];
             return response($response,401);
         }
-        
-
     }
     public function deactivate($id){
         $user = auth()->user();
@@ -270,5 +258,4 @@ class InstructorController extends Controller
             return response($response,401);
         }
     }
-    
 }

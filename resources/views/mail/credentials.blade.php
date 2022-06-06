@@ -6,7 +6,7 @@ After you verified your email address, please use this email to reset your passw
 Email: {{ $email }}
 <br>
 <br>
-@component('mail::button', ['url' => env('FRONTEND_URL') . '/password/reset'])
+@component('mail::button', ['url' => env('FRONTEND_URL') . 'password/reset'])
     Reset Password
 @endcomponent
 

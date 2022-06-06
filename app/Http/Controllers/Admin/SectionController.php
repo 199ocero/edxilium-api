@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\AdminController;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Subject;
+use App\Models\Section;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
 
-class SubjectController extends Controller
+class SectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +19,10 @@ class SubjectController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $subject = Subject::latest()->get();
+            $section = Section::latest()->get();
             $response = [
                 'message' => 'Fetch all data successfully!',
-                'data' => $subject
+                'data' => $section
             ];
 
             return response($response,200);
@@ -32,7 +32,6 @@ class SubjectController extends Controller
             ];
             return response($response,401);
         }
-        
     }
 
     /**
@@ -47,35 +46,23 @@ class SubjectController extends Controller
         $user = $user->role;
         if($user=='admin'){
             $data = $request->validate([
-                'subject' => 'required|unique:subjects,subject|string',
-                'year_level' => 'required|string',
-            ]);
-            $subjectUppercase = strtoupper($data['subject']);
-            $subjectName = Subject::where('subject',$subjectUppercase)->first();
-            if($subjectName !=null){
-                throw ValidationException::withMessages([
-                    'subject' => 'The subject has already been taken.'
-                ]);
-            }else{
-                 $subject = Subject::create([
-                    'subject' => $data['subject'],
-                    'year_level' => $data['year_level'],
-                ]);
-                $response = [
-                    'message' => 'Subject created successfully!',
-                    'data' => $subject,
-                ];
+            'section' => 'required|unique:sections,section|string',
+        ]);
+        $section = Section::create([
+            'section' => $data['section'],
+        ]);
+        $response = [
+            'message' => 'Section created successfully!',
+            'data' => $section,
+        ];
 
-                return response($response,201);
-            }
-           
+        return response($response,201);
         }else{
-             $response = [
+            $response = [
                 'message' => 'User unauthorized.',
             ];
             return response($response,401);
         }
-        
     }
 
     /**
@@ -89,20 +76,19 @@ class SubjectController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $subject = Subject::find($id);
-            $response = [
-                'message' => 'Fetch specific subject successfully!',
-                'data' => $subject,
-            ];
+            $section = Section::find($id);
+        $response = [
+            'message' => 'Fetch specific section successfully!',
+            'data' => $section,
+        ];
 
-            return response($response,200);
+        return response($response,200);
         }else{
             $response = [
                 'message' => 'User unauthorized.',
             ];
             return response($response,401);
         }
-        
     }
 
     /**
@@ -117,29 +103,21 @@ class SubjectController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $data = $request->validate([
-                'subject' => 'required|string',
-                'year_level' => 'required|string',
-            ]);
+            $section = Section::find($id);
+        $section->update($request->all());
 
-            $subject = Subject::find($id);
-            $subject->subject = $data['subject'];
-            $subject->year_level = $data['year_level'];
-            $subject->update();
+        $response = [
+            'message' => 'Section updated successfully!',
+            'data' => $section,
+        ];
 
-            $response = [
-                'message' => 'Subject updated successfully!',
-                'data' => $subject,
-            ];
-
-            return response($response,200);
+        return response($response,200);
         }else{
             $response = [
                 'message' => 'User unauthorized.',
             ];
             return response($response,401);
         }
-        
     }
 
     /**
@@ -153,26 +131,20 @@ class SubjectController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $subject = Subject::destroy($id);
-
-            if($subject==0){
+            $section = Section::destroy($id);
+            Student::where('section_id',$id)->delete();
+            if($section==0){
                 $response = [
-                    'message' => 'Subject not found.'
+                    'message' => 'Section not found.'
                 ];
             }else{
                 $response = [
-                    'message' => 'Subject deleted successfully!'
+                    'message' => 'Section deleted successfully!'
                 ];
             }
             
 
             return response($response,200);
-        }else{
-            $response = [
-                'message' => 'User unauthorized.',
-            ];
-            return response($response,401);
         }
-        
     }
 }

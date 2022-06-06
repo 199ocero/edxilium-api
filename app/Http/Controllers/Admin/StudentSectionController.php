@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\AdminController;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Imports\StudentImport;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Validators\ValidationException;
+use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Validators\ValidationException as ExcelValidateException;
 
 class StudentSectionController extends Controller
 {
@@ -36,7 +37,7 @@ class StudentSectionController extends Controller
                 try {
                     $file = $request->file('file');
                     Excel::import(new StudentImport($section->id), $file);
-                } catch (ValidationException $e) {
+                } catch (ExcelValidateException $e) {
                     
                     $failures = $e->failures();
                     
@@ -76,6 +77,5 @@ class StudentSectionController extends Controller
             ];
             return response($response,401);
         }
-        
     }
 }

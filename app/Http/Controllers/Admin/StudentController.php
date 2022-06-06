@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AdminController;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -14,16 +14,10 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index()
-    // {
-    //     $student = Student::all();
-    //     $response = [
-    //         'message' => 'Fetch all data successfully!',
-    //         'data' => $student
-    //     ];
-
-    //     return response($response,200);
-    // }
+    public function index()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -72,7 +66,6 @@ class StudentController extends Controller
 
             return response($response,201);
         }
-        
     }
 
     /**
@@ -99,7 +92,6 @@ class StudentController extends Controller
             ];
             return response($response,401);
         }
-       
     }
     public function showSpecific($id)
     {
@@ -214,6 +206,5 @@ class StudentController extends Controller
             ];
             return response($response,401);
         }
-        
     }
 }

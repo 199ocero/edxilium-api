@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\InstructorController;
+namespace App\Http\Controllers\Instructor;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Instructor;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
@@ -42,7 +42,7 @@ class ProfileController extends Controller
         if($user=='instructor'){
             $instructor = Instructor::where('instructor_id',auth()->id())->first();
             $response = [
-                'message' => 'Fetch specific instructor successfully!',
+                'message' => 'Fetch specific instructor wtf howww?!',
                 'data' => $instructor,
             ];
 

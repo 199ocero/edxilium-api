@@ -9,17 +9,18 @@ use Illuminate\Support\Facades\Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      *
      * @return void
      */
     public function run()
     {
-        DB::table('users')->insert([
+       DB::table('users')->insert([
             'status' => 'activated',
             'role' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('shutdown199'),
+            'email_verified_at'=>now(),
+            'password' => Hash::make('admin123'),
         ]);
     }
 }

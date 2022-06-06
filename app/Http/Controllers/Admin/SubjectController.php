@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\AdminController;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\SchoolYear;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
-class SchoolYearController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,20 +19,19 @@ class SchoolYearController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $schoolyear = SchoolYear::latest()->get();
+            $subject = Subject::latest()->get();
             $response = [
                 'message' => 'Fetch all data successfully!',
-                'data' => $schoolyear
+                'data' => $subject
             ];
 
             return response($response,200);
         }else{
-             $response = [
+            $response = [
                 'message' => 'User unauthorized.',
             ];
             return response($response,401);
         }
-       
     }
 
     /**
@@ -47,39 +46,34 @@ class SchoolYearController extends Controller
         $user = $user->role;
         if($user=='admin'){
             $data = $request->validate([
-                'start_year' => 'required|string|digits:4',
-                'end_year' => 'required|string|digits:4',
+                'subject' => 'required|unique:subjects,subject|string',
+                'year_level' => 'required|string',
             ]);
-            $year = SchoolYear::where('start_year',$data['start_year'])->where('end_year',$data['end_year'])->get();
-            if(!$year->isEmpty()){
+            $subjectUppercase = strtoupper($data['subject']);
+            $subjectName = Subject::where('subject',$subjectUppercase)->first();
+            if($subjectName !=null){
                 throw ValidationException::withMessages([
-                    'start_year' => 'This school year combination is already added in our record. Please use another combination.'
-                ]);
-            }
-            else if($request->start_year>=$request->end_year){
-                 throw ValidationException::withMessages([
-                    'start_year' => 'The starting year should be lesser than the end year.'
+                    'subject' => 'The subject has already been taken.'
                 ]);
             }else{
-                $schoolyear = SchoolYear::create([
-                    'start_year' => $data['start_year'],
-                    'end_year' => $data['end_year'],
+                 $subject = Subject::create([
+                    'subject' => $data['subject'],
+                    'year_level' => $data['year_level'],
                 ]);
                 $response = [
-                    'message' => 'School Year created successfully!',
-                    'data' => $schoolyear,
+                    'message' => 'Subject created successfully!',
+                    'data' => $subject,
                 ];
 
                 return response($response,201);
             }
-            
+           
         }else{
-            $response = [
+             $response = [
                 'message' => 'User unauthorized.',
             ];
             return response($response,401);
         }
-       
     }
 
     /**
@@ -93,10 +87,10 @@ class SchoolYearController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $schoolyear = SchoolYear::find($id);
+            $subject = Subject::find($id);
             $response = [
-                'message' => 'Fetch specific school year successfully!',
-                'data' => $schoolyear,
+                'message' => 'Fetch specific subject successfully!',
+                'data' => $subject,
             ];
 
             return response($response,200);
@@ -106,7 +100,6 @@ class SchoolYearController extends Controller
             ];
             return response($response,401);
         }
-       
     }
 
     /**
@@ -118,38 +111,31 @@ class SchoolYearController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            
             $data = $request->validate([
-                'start_year' => 'required|string|digits:4',
-                'end_year' => 'required|string|digits:4',
+                'subject' => 'required|string',
+                'year_level' => 'required|string',
             ]);
-            if($request->start_year>=$request->end_year){
-                 throw ValidationException::withMessages([
-                    'start_year' => 'The starting year should be lesser than the end year.'
-                ]);
-            }else{
-                $schoolyear = SchoolYear::find($id);
-                $schoolyear->start_year = $data['start_year'];
-                $schoolyear->end_year = $data['end_year'];
-                $schoolyear->update();
-                $response = [
-                    'message' => 'School Year updated successfully!',
-                    'data' => $schoolyear,
-                ];
-                return response($response,200);
-            }
-            
+
+            $subject = Subject::find($id);
+            $subject->subject = $data['subject'];
+            $subject->year_level = $data['year_level'];
+            $subject->update();
+
+            $response = [
+                'message' => 'Subject updated successfully!',
+                'data' => $subject,
+            ];
+
+            return response($response,200);
         }else{
             $response = [
                 'message' => 'User unauthorized.',
             ];
             return response($response,401);
         }
-       
     }
 
     /**
@@ -163,15 +149,15 @@ class SchoolYearController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $schoolyear = SchoolYear::destroy($id);
+            $subject = Subject::destroy($id);
 
-            if($schoolyear==0){
+            if($subject==0){
                 $response = [
-                    'message' => 'School Year not found.'
+                    'message' => 'Subject not found.'
                 ];
             }else{
                 $response = [
-                    'message' => 'School Year deleted successfully!'
+                    'message' => 'Subject deleted successfully!'
                 ];
             }
             
@@ -183,6 +169,5 @@ class SchoolYearController extends Controller
             ];
             return response($response,401);
         }
-       
     }
 }
