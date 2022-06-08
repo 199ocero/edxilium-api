@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\Instructor\AnnController;
 use App\Http\Controllers\Instructor\SecController;
 use App\Http\Controllers\Instructor\StuController;
 use App\Http\Controllers\Instructor\AssiController;
@@ -185,6 +186,17 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::put('/student/add/{id}',[StuController::class,'add']);
     // Drop Student
     Route::put('/student/drop/{id}',[StuController::class,'drop']);
+    /*===============End==============*/
+
+    /*===============Instructor - Announcement==============*/
+    // Create Announcement
+    Route::post('/announcement/{section_id}/{subject_id}',[AnnController::class,'store']);
+    // Delete specific Announcement
+    Route::delete('/announcement/{id}',[AnnController::class,'destroy']);
+    // Get specific Announcement
+    Route::get('/announcement/{section_id}/{subject_id}',[AnnController::class,'show']);
+    // Update specific Announcement
+    Route::put('/announcement/{id}',[AnnController::class,'update']);
     /*===============End==============*/
 
 });

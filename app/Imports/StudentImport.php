@@ -26,6 +26,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
               substr($number, 6));
         $student= Student::create([
             'section_id'=>$this->section_id,
+            'drop_status'=>0,
             'student_id'=>$row['student_id'],
             'first_name'=>$row['first_name'],
             'middle_name'=>$row['middle_name'],

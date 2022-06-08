@@ -104,14 +104,14 @@ class SectionController extends Controller
         $user = $user->role;
         if($user=='admin'){
             $section = Section::find($id);
-        $section->update($request->all());
+            $section->update($request->all());
 
-        $response = [
-            'message' => 'Section updated successfully!',
-            'data' => $section,
-        ];
+            $response = [
+                'message' => 'Section updated successfully!',
+                'data' => $section,
+            ];
 
-        return response($response,200);
+            return response($response,200);
         }else{
             $response = [
                 'message' => 'User unauthorized.',
