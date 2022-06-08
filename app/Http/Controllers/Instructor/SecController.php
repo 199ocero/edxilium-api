@@ -84,7 +84,7 @@ class SecController extends Controller
             return response($response,401);
         }
     }
-    public function showInfo($section_id,$subject_id,$school_year_id){
+    public function showInfo($section_id,$subject_id){
         $user = auth()->user();
         $user = $user->role;
         if($user=='instructor'){
@@ -93,7 +93,6 @@ class SecController extends Controller
                             ->where('instructor_id',$instructor_id->id)
                             ->where('section_id',$section_id)
                             ->where('subject_id',$subject_id)
-                            ->where('school_year_id',$school_year_id)
                             ->first();
             $response = [
                 'message' => 'Fetch specific section successfully!',

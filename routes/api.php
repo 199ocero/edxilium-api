@@ -167,7 +167,7 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
 
     /*===============Instructor - Section==============*/
     // Get specific information
-    Route::get('/assigned/info/{section_id}/{subject_id}/{school_year_id}',[SecController::class,'showInfo']);
+    Route::get('/assigned/info/{section_id}/{subject_id}',[SecController::class,'showInfo']);
     // Get specific student by section
     Route::get('/assigned/student-section/{section_id}/{subject_id}',[SecController::class,'show']);
     /*===============End==============*/
