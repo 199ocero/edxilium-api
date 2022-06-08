@@ -179,7 +179,7 @@ class AnnController extends Controller
         if($user=='instructor'){
             Announcement::destroy($id);
             $response = [
-                'message' => 'Section deleted successfully!'
+                'message' => 'Announcement deleted successfully!'
             ];
             
             return response($response,200);
