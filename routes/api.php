@@ -205,8 +205,9 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     /*===============Student - Profile==============*/
     // Get student profile
     Route::get('/student/info/profile',[StdController::class,'show']);
-    // Update instructor
+    // Update student profile
     Route::put('/student/info/profile',[StdController::class,'update']);
+    
     /*===============End==============*/
 
 });
@@ -218,3 +219,6 @@ Route::post('password/reset', [ForgotPasswordController::class,'reset']);
 
  // Email Verification
 Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
+
+// Get student profile by fbid
+Route::get('/student/info/profile/{id}',[StdController::class,'studentProfile']);

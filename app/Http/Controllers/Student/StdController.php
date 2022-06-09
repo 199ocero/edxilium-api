@@ -71,7 +71,13 @@ class StdController extends Controller
             return response($response,401);
         }
     }
-    public function fbID($id){
+    public function studentProfile($fbID){
+        $student = Student::where('facebook_id',$fbID)->first();
+        $response = [
+            'message' => 'Fetch specific student profile!',
+            'data' => $student,
+        ];
 
+        return response($response,200);
     }
 }
