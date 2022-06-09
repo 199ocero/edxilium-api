@@ -41,6 +41,7 @@ class StdController extends Controller
                 'age' => 'required|string',
                 'gender' => 'required|string',
                 'contact_number' => 'required|digits:10',
+                'facebook_id' => 'required|digits:16',
             ]);
             $number =$data['contact_number'];
             $result = sprintf("(%s) %s-%s",
@@ -53,6 +54,7 @@ class StdController extends Controller
             $student->last_name = $data['last_name'];
             $student->age = $data['age'];
             $student->gender = $data['gender'];
+            $student->facebook_id = $data['facebook_id'];
             $student->contact_number = $result;
             $student->update();
     
@@ -68,5 +70,8 @@ class StdController extends Controller
             ];
             return response($response,401);
         }
+    }
+    public function fbID($id){
+
     }
 }
