@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SchoolYearController;
 use App\Http\Controllers\Instructor\IrregController;
 use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Admin\StudentSectionController;
+use App\Http\Controllers\Student\StdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -199,6 +200,13 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::get('/announcement/{id}',[AnnController::class,'getAnnoucement']);
     // Update specific Announcement
     Route::put('/announcement/{id}',[AnnController::class,'update']);
+    /*===============End==============*/
+
+    /*===============Student - Profile==============*/
+    // Get student profile
+    Route::get('/student/info/profile',[StdController::class,'show']);
+    // Update instructor
+    Route::put('/student/info/profile',[StdController::class,'update']);
     /*===============End==============*/
 
 });

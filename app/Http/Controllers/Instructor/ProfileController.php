@@ -42,7 +42,7 @@ class ProfileController extends Controller
         if($user=='instructor'){
             $instructor = Instructor::where('instructor_id',auth()->id())->first();
             $response = [
-                'message' => 'Fetch specific instructor wtf howww?!',
+                'message' => 'Fetch specific instructor profile!',
                 'data' => $instructor,
             ];
 
