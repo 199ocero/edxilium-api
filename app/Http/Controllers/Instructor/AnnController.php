@@ -36,7 +36,7 @@ class AnnController extends Controller
                     'deadline' => 'required',
                     'act_title' => 'string',
                     'instruction' => 'required|string',
-                    'act_link' => 'required|string',
+                    'act_link' => 'required|url',
                 ]);
                 $announcement = Announcement::create([
                     'section_id' => $section_id,
@@ -52,8 +52,8 @@ class AnnController extends Controller
                     'deadline' => 'required',
                     'act_title' => 'string',
                     'instruction' => 'required|string',
-                    'act_link' => 'required|string',
-                    'attachment' => 'string',
+                    'act_link' => 'required|url',
+                    'attachment' => 'url',
                 ]);
                 $announcement = Announcement::create([
                     'section_id' => $section_id,
@@ -116,7 +116,7 @@ class AnnController extends Controller
         if($user=='instructor'){
             
             $announcement = Announcement::find($id);
-            
+
             $announce = [];
             $announce['id']=$announcement->id;
             $announce['section_id']=$announcement->section_id;
@@ -160,7 +160,7 @@ class AnnController extends Controller
                     'deadline' => 'required',
                     'act_title' => 'string',
                     'instruction' => 'required|string',
-                    'act_link' => 'required|string',
+                    'act_link' => 'required|url',
                 ]);
                 $announcement = Announcement::find($id);
                 $announcement->deadline = $data['deadline'];
@@ -175,7 +175,7 @@ class AnnController extends Controller
                     'act_title' => 'string',
                     'instruction' => 'required|string',
                     'act_link' => 'required|string',
-                    'attachment' => 'string',
+                    'attachment' => 'url',
                 ]);
                 $announcement = Announcement::find($id);
                 $announcement->deadline = $data['deadline'];
