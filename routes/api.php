@@ -193,8 +193,10 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::post('/announcement/{section_id}/{subject_id}',[AnnController::class,'store']);
     // Delete specific Announcement
     Route::delete('/announcement/{id}',[AnnController::class,'destroy']);
-    // Get specific Announcement
+    // Get Announcement by section and subject
     Route::get('/announcement/{section_id}/{subject_id}',[AnnController::class,'show']);
+    // Get Announcement by id
+    Route::get('/announcement/{id}',[AnnController::class,'getAnnoucement']);
     // Update specific Announcement
     Route::put('/announcement/{id}',[AnnController::class,'update']);
     /*===============End==============*/

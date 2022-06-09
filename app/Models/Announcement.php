@@ -19,4 +19,5 @@ class Announcement extends Model
         'act_link',
         'attachment',
     ];
+    protected $dates = ['deadline'];
 }

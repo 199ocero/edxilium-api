@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Instructor;
 
-use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 
 class AnnController extends Controller
 {
@@ -97,7 +98,40 @@ class AnnController extends Controller
 
             $response = [
                 'message' => 'Fetch specific announcement successfully!',
-                'data'=>$announcement
+                'data'=>$announcement,
+            ];
+            
+            return response($response,200);
+        }else{
+            $response = [
+                'message' => 'User unauthorized.',
+            ];
+            return response($response,401);
+        }
+    }
+    public function getAnnoucement($id)
+    {
+        $user = auth()->user();
+        $user = $user->role;
+        if($user=='instructor'){
+            
+            $announcement = Announcement::find($id);
+            
+            $announce = [];
+            $announce['id']=$announcement->id;
+            $announce['section_id']=$announcement->section_id;
+            $announce['subject_id']=$announcement->subject_id;
+            $announce['deadline'] = Carbon::parse($announcement->deadline)->format('Y-m-d H:i');
+            $announce['act_title']=$announcement->act_title;
+            $announce['instruction']=$announcement->instruction;
+            $announce['act_link']=$announcement->act_link;
+            $announce['attachment']=$announcement->attachment;
+            $announce['created_at']=$announcement->created_at;
+            $announce['updated_at']=$announcement->updated_at;
+            
+            $response = [
+                'message' => 'Fetch specific announcement successfully!',
+                'data'=>$announce,
             ];
             
             return response($response,200);
