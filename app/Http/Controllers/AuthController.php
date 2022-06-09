@@ -92,9 +92,21 @@ class AuthController extends Controller
                 }
                 
             }else{
-                throw ValidationException::withMessages([
-                    'verified' => 'The email address is not verified. Please contact your school administrator.'
-                ]);
+                $token = $user->createToken('token')->plainTextToken;
+                    if($user->role=='student'){
+                        $response = [
+                            'message' => 'Student login successfully!',
+                            'data' => $user,
+                            'role' => 'student',
+                            'token' => $token
+                        ];
+                        return response($response,200);
+                }else{
+                    throw ValidationException::withMessages([
+                        'verified' => 'The email address is not verified. Please contact your school administrator.'
+                    ]);
+                }
+                
             }
         }
     }

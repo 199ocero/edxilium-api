@@ -2,7 +2,10 @@
 
 namespace App\Imports;
 
+use App\Models\User;
 use App\Models\Student;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -19,13 +22,21 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array $row)
     {
+        $lastnameUppercase = strtoupper($row['last_name']);
+        $student = User::create([
+            'status'=> 'activated',
+            'role' => 'student',
+            'email' => $row['email'],
+            'password' => bcrypt($row['student_id'].'@'.$lastnameUppercase),
+        ]);
         $number =$row['contact_number'];
         $result = sprintf("(%s) %s-%s",
               substr($number, 0, 3),
               substr($number, 3, 3),
               substr($number, 6));
-        $student= Student::create([
+        Student::create([
             'section_id'=>$this->section_id,
+            'student_user_id'=>$student->id,
             'drop_status'=>0,
             'student_id'=>$row['student_id'],
             'first_name'=>$row['first_name'],
@@ -36,7 +47,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
             'contact_number'=>$result,
             'email'=>$row['email'],
         ]);
-        return $student;
+        
 
     }
     public function rules():array{

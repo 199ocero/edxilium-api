@@ -93,10 +93,10 @@ class InstructorController extends Controller
                 'token' => $token
             ];
     
-            $email = $data['email'];
+            // $email = $data['email'];
     
             $instructor->sendEmailVerificationNotification();
-            Mail::to($data['email'])->send(new Credentials($email,$password));
+            // Mail::to($data['email'])->send(new Credentials($email,$password));
     
     
             return response($response,201);

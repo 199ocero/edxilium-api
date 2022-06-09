@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Section;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -132,7 +133,15 @@ class SectionController extends Controller
         $user = $user->role;
         if($user=='admin'){
             $section = Section::destroy($id);
+            $student_id = Student::where('section_id',$id)->get();
+            $student_ids = [];
+
+            foreach($student_id as $student_id){
+                $student_ids[]=$student_id->student_user_id;
+            }
+            User::destroy($student_ids);
             Student::where('section_id',$id)->delete();
+
             if($section==0){
                 $response = [
                     'message' => 'Section not found.'
@@ -145,6 +154,11 @@ class SectionController extends Controller
             
 
             return response($response,200);
+        }else{
+             $response = [
+                'message' => 'User unauthorized.',
+            ];
+            return response($response,401);
         }
     }
 }
