@@ -118,12 +118,21 @@ class StdController extends Controller
                                         ->whereNotIn('section_id',$drop_subject_id)
                                         ->latest()
                                         ->get();
-            $response = [
-                'message' => 'Fetch specific student announcement!',
-                'data' => $announcement,
-            ];
+            if($announcement){
+                $response = [
+                    'message' => 'Fetch specific student announcement!',
+                    'data' => $announcement,
+                ];
 
-            return response($response,200);
+                return response($response,200);
+            }else{
+                $response = [
+                    'message' => 'No announcement found. It is either your instructor didn\'t create announcement yet or you are drop in all section and subjects.',
+                ];
+
+                return response($response,200);
+            }
+            
         }else{
             $response = [
                 'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu.',
