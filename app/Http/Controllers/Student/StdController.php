@@ -119,7 +119,7 @@ class StdController extends Controller
                                         ->whereNotIn('section_id',$drop_subject_id)
                                         ->latest()
                                         ->get();
-            if($announcement){
+            if(count($announcement)!=0){
                 $response = [
                     'message' => 'Fetch specific student announcement!',
                     'data' => $announcement,
