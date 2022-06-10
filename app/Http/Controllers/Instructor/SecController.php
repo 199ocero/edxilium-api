@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Drop;
 use App\Models\Irregular;
 
 class SecController extends Controller
@@ -56,7 +57,7 @@ class SecController extends Controller
                 $irreg_id[]=$irreg->student_id;
             }
 
-            $studentReg = Student::where('section_id',$section_id)->get();
+            $studentReg = Student::where('section_id',$section_id)->latest()->get();
             $studentReg = $studentReg->map(function ($item) {
                 $item->status = 'Regular';
                 return $item;
@@ -71,9 +72,20 @@ class SecController extends Controller
             $mergeStudent = $studentReg->merge($studentIrreg);
 
 
+            $drop = Drop::where('section_id',$section_id)->where('subject_id',$subject_id)->latest()->get();
+
+            $merge = $mergeStudent->map(function ($item) use ($drop) {
+                foreach($drop as $drops){
+                    if($drops->student_id==$item->id){
+                        $item->status = 'Drop';
+                        
+                    }
+                } 
+                return $item;
+            });
             $response = [
                 'message' => 'Fetch specific student successfully!',
-                'data' => $mergeStudent,
+                'data' => $merge,
             ];
 
             return response($response,200);

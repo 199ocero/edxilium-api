@@ -184,9 +184,9 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
 
     /*===============Instructor - Add/Drop==============*/
     // Add Student
-    Route::put('/student/add/{id}',[StuController::class,'add']);
+    Route::put('/student/add/{student_id}/{section_id}/{subject_id}',[StuController::class,'add']);
     // Drop Student
-    Route::put('/student/drop/{id}',[StuController::class,'drop']);
+    Route::put('/student/drop/{student_id}/{section_id}/{subject_id}',[StuController::class,'drop']);
     /*===============End==============*/
 
     /*===============Instructor - Announcement==============*/
@@ -207,7 +207,6 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::get('/student/info/profile',[StdController::class,'show']);
     // Update student profile
     Route::put('/student/info/profile',[StdController::class,'update']);
-    
     /*===============End==============*/
 
 });
@@ -222,3 +221,6 @@ Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name(
 
 // Get student profile by fbid
 Route::get('/student/info/profile/{id}',[StdController::class,'studentProfile']);
+
+// Get student announcement
+Route::get('/student/info/announcement/{id}',[StdController::class,'studentAnnouncement']);

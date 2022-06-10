@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Student;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
+use App\Models\Irregular;
 
 class StdController extends Controller
 {
@@ -76,6 +78,24 @@ class StdController extends Controller
         $response = [
             'message' => 'Fetch specific student profile!',
             'data' => $student,
+        ];
+
+        return response($response,200);
+    }
+    public function studentAnnouncement($fbID){
+        $student = Student::where('facebook_id',$fbID)->first();
+        $irregular = Irregular::where('student_id',$student->id)->latest()->get();
+        $section_id = [];
+        foreach($irregular as $irreg){
+            $section_id[]=$irreg->section_id;
+        }
+        array_push($section_id,$student->section_id);
+
+        $announcement = Announcement::whereIn('section_id',$section_id)->latest()->get();
+
+        $response = [
+            'message' => 'Fetch specific student announcement!',
+            'data' => $announcement,
         ];
 
         return response($response,200);
