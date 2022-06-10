@@ -86,6 +86,7 @@ class StdController extends Controller
         }else{
             $response = [
                 'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu.',
+                'data' => $student,
             ];
 
             return response($response,200);
@@ -128,6 +129,7 @@ class StdController extends Controller
             }else{
                 $response = [
                     'message' => 'No announcement found. It is either your instructor didn\'t create announcement yet or you are drop in all section and subjects.',
+                    'data'=>$announcement
                 ];
 
                 return response($response,200);
@@ -136,6 +138,7 @@ class StdController extends Controller
         }else{
             $response = [
                 'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu.',
+                'data' => $student,
             ];
 
             return response($response,200);
