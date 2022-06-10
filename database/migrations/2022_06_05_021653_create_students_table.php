@@ -17,7 +17,6 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->string('section_id');
             $table->string('student_user_id');
-            $table->string('drop_status')->nullable();
             $table->string('facebook_id')->nullable();
             $table->string('student_id');
             $table->string('first_name');
