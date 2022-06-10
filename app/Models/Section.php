@@ -21,4 +21,9 @@ class Section extends Model
     {
         return $this->hasMany(Student::class);
     }
+    public function announcement()
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
 }

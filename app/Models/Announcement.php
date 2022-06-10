@@ -20,4 +20,13 @@ class Announcement extends Model
         'attachment',
     ];
     protected $dates = ['deadline'];
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class)->select(['id','section']);
+    }
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class)->select(['id','subject','year_level']);
+    }
 }
