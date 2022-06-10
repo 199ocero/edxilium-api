@@ -85,7 +85,7 @@ class StdController extends Controller
             return response($response,200);
         }else{
             $response = [
-                'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu.',
+                'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu. If you can\'t remember, please click the Facebook ID in menu.',
                 'data' => $student,
             ];
 
@@ -137,7 +137,7 @@ class StdController extends Controller
             
         }else{
             $response = [
-                'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu.',
+                'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu. If you can\'t remember, please click the Facebook ID in menu.',
                 'data' => $student,
             ];
 
