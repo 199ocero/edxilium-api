@@ -224,3 +224,6 @@ Route::get('/student/info/profile/{id}',[StdController::class,'studentProfile'])
 
 // Get student announcement
 Route::get('/student/info/announcement/{id}',[StdController::class,'studentAnnouncement']);
+
+// Get student announcement specific
+Route::get('/student/specific/announcement/{id}/{announcement_id}',[StdController::class,'studentSpecificAnnouncement']);

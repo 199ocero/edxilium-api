@@ -145,4 +145,72 @@ class StdController extends Controller
         }
         
     }
+    public function studentSpecificAnnouncement($fbID,$announcement_id){
+        $student = Student::where('facebook_id',$fbID)->first();
+
+        if($student){
+            $irregular = Irregular::where('student_id',$student->id)->latest()->get();
+            $drop = Drop::where('student_id',$student->id)->latest()->get();
+
+            $section_id = [];
+            foreach($irregular as $irreg){
+                $section_id[]=$irreg->section_id;
+            }
+            $drop_section_id = [];
+            $drop_subject_id = [];
+            foreach($drop as $drop){
+                $drop_section_id[]=$drop->section_id;
+                $drop_subject_id[]=$drop->section_id;
+
+            }
+            array_push($section_id,$student->section_id);
+
+            $announcement = Announcement::with('section','subject')->whereIn('section_id',$section_id)
+                                        ->whereNotIn('section_id',$drop_section_id)
+                                        ->whereNotIn('section_id',$drop_subject_id)
+                                        ->latest()
+                                        ->get();
+            if(count($announcement)!=0){
+                $announcementSpecific=0;
+                foreach($announcement as $announcement){
+                    if($announcement_id==$announcement->id){
+                        $announcementSpecific =$announcement->id;
+                        break;
+                    }     
+                }
+
+                if($announcementSpecific>0){
+                    $ann = Announcement::with('section','subject')->find($announcementSpecific);
+                    $response = [
+                        'message' => 'Fetch specific student announcement!',
+                        'data' => $ann,
+                    ];
+                    return response($response,200);
+                }else{
+                    $ann = Announcement::with('section','subject')->find($announcementSpecific);
+                    $response = [
+                        'message' => 'No announcement found. This ID is not in our records. Please try again.',
+                        'data'=>$ann
+                    ];
+
+                    return response($response,200);
+                }  
+            }else{
+                $response = [
+                    'message' => 'No announcement found. This ID is not in our records. Please try again.',
+                    'data'=>$announcement
+                ];
+
+                return response($response,200);
+            }
+            
+        }else{
+            $response = [
+                'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu. If you can\'t remember, please click the Facebook ID in menu.',
+                'data' => $student,
+            ];
+
+            return response($response,200);
+        }
+    }
 }
