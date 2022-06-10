@@ -76,12 +76,21 @@ class StdController extends Controller
     }
     public function studentProfile($fbID){
         $student = Student::where('facebook_id',$fbID)->first();
-        $response = [
-            'message' => 'Fetch specific student profile!',
-            'data' => $student,
-        ];
+        if($student){
+             $response = [
+                'message' => 'Fetch specific student profile!',
+                'data' => $student,
+            ];
 
-        return response($response,200);
+            return response($response,200);
+        }else{
+            $response = [
+                'message' => 'Facebook ID not found. Please register your ID by clicking the Visit Edxilium in menu.',
+            ];
+
+            return response($response,200);
+        }
+       
     }
     public function studentAnnouncement($fbID){
 
