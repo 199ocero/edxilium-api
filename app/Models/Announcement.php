@@ -11,6 +11,7 @@ class Announcement extends Model
     use HasFactory,HasApiTokens;
 
     protected $fillable = [
+        'instructor_id',
         'section_id',
         'subject_id',
         'deadline',
