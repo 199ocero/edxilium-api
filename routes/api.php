@@ -19,7 +19,6 @@ use App\Http\Controllers\Admin\SchoolYearController;
 use App\Http\Controllers\Instructor\IrregController;
 use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Admin\StudentSectionController;
-use App\Http\Controllers\BotmanController;
 use App\Http\Controllers\Student\CompleteController;
 use App\Http\Controllers\Student\StdController;
 
@@ -224,13 +223,6 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::post('/student/complete/announcement/{id}',[CompleteController::class,'store']);
     // Incomplete Announcement
     Route::delete('/student/incomplete/announcement/{id}',[CompleteController::class,'destroy']);
-    /*===============End==============*/
-
-
-    /*===============Instructor - Broadcast Announcement==============*/
-    // Complete Announcement
-    Route::post('/instructor/broadcast/announcement',[BotmanController::class,'broadcastMessage']);
-    /*===============End==============*/
 
 });
 

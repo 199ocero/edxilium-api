@@ -1,22 +1,4 @@
 <?php return array (
-  'botman/botman' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'BotMan\\BotMan\\BotManServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'BotMan' => 'BotMan\\BotMan\\Facades\\BotMan',
-    ),
-  ),
-  'botman/driver-facebook' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'BotMan\\Drivers\\Facebook\\Providers\\FacebookServiceProvider',
-    ),
-  ),
   'facade/ignition' => 
   array (
     'providers' => 
