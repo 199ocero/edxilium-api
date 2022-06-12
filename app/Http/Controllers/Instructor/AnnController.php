@@ -58,6 +58,8 @@ class AnnController extends Controller
                     'attachment' => 'url',
                 ]);
                 $announcement = Announcement::create([
+                    'instructor_id' => $instructor_id->id,
+                    'section_id' => $section_id,
                     'section_id' => $section_id,
                     'subject_id' => $subject_id,
                     'deadline' => $data['deadline'],
