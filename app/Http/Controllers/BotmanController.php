@@ -22,9 +22,7 @@ class BotmanController extends Controller
             ]
         ];
         // Create BotMan instance
-        BotManFactory::create($config);
-
-        $botman = app('botman');
+        $botman = BotManFactory::create($config);
         
         $botman->say("Hello👋! Wazzup",5395711423809806, FacebookDriver::class);
 
