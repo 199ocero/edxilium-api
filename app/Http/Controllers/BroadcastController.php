@@ -7,6 +7,8 @@ use App\Models\Assign;
 use App\Models\Student;
 use App\Models\Irregular;
 use App\Models\Instructor;
+use App\Models\Section;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class BroadcastController extends Controller
@@ -53,8 +55,12 @@ class BroadcastController extends Controller
             foreach($finalData as $finalData){
                 $fbID[]=$finalData->facebook_id;
             }
+            $section = Section::find($section_id)->first();
+            $subject = Subject::find($subject_id)->first();
             $response = [
                 'message' => 'Fetch student facebook id successfully!',
+                'section'=>$section->section,
+                'subject'=>$subject->subject,
                 'data' => array_filter($fbID),
             ];
 
