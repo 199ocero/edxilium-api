@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Instructor;
 
+use App\Models\Instructor;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -30,7 +31,7 @@ class AnnController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='instructor'){
-            
+            $instructor_id = Instructor::where('instructor_id',auth()->id())->first();
             if($request->attachment==''){
                 $data = $request->validate([
                     'deadline' => 'required',
@@ -39,7 +40,7 @@ class AnnController extends Controller
                     'act_link' => 'required|url',
                 ]);
                 $announcement = Announcement::create([
-                    'instructor_id' => auth()->id(),
+                    'instructor_id' => $instructor_id->id,
                     'section_id' => $section_id,
                     'subject_id' => $subject_id,
                     'deadline' => $data['deadline'],
