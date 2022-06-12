@@ -29,4 +29,8 @@ class Announcement extends Model
     {
         return $this->belongsTo(Subject::class)->select(['id','subject','year_level']);
     }
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class)->select(['id','first_name','last_name']);
+    }
 }

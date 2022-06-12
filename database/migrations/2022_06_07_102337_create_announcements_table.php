@@ -15,6 +15,7 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
+            $table->string('instructor_id');
             $table->string('section_id');
             $table->string('subject_id');
             $table->dateTime('deadline');

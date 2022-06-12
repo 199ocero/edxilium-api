@@ -19,4 +19,8 @@ class Instructor extends Model
         'gender',
         'contact_number',
     ];
+    public function announcement()
+    {
+        return $this->hasMany(Announcement::class);
+    }
 }

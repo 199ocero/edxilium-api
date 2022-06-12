@@ -97,7 +97,7 @@ class StdController extends Controller
             }
             array_push($section_id,$student->section_id);
 
-            $announcement = Announcement::with('section','subject')->whereIn('section_id',$section_id)
+            $announcement = Announcement::with('section','subject','instructor')->whereIn('section_id',$section_id)
                                         ->whereNotIn('section_id',$drop_section_id)
                                         ->whereNotIn('section_id',$drop_subject_id)
                                         ->latest()
