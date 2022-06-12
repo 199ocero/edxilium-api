@@ -26,5 +26,13 @@ class BotmanController extends Controller
         
         $botman->say("Hello👋! Wazzup",5395711423809806, FacebookDriver::class);
 
+        $botman->listen();
+
+         $response = [
+            'message' => 'Success',
+        ];
+
+        return response($response,200);
+
     }
 }
