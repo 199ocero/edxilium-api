@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SchoolYearController;
 use App\Http\Controllers\Instructor\IrregController;
 use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Admin\StudentSectionController;
+use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\Student\CompleteController;
 use App\Http\Controllers\Student\StdController;
 
@@ -203,6 +204,11 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::put('/announcement/{id}',[AnnController::class,'update']);
     /*===============End==============*/
 
+    /*===============Instructor - Broadcast Announcement==============*/
+    // Get Student FB ID, section and subject name
+    Route::get('/broadcast-message/{section_id}/{subject_id}',[BroadcastController::class,'broadcastMessage']);
+    /*===============End==============*/
+
     /*===============Student - Profile==============*/
     // Get student profile
     Route::get('/student/info/profile',[StdController::class,'show']);
@@ -223,6 +229,7 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::post('/student/complete/announcement/{id}',[CompleteController::class,'store']);
     // Incomplete Announcement
     Route::delete('/student/incomplete/announcement/{id}',[CompleteController::class,'destroy']);
+    /*===============End==============*/
 
 });
 
