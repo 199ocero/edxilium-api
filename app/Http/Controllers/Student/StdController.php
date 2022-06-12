@@ -8,6 +8,7 @@ use App\Models\Irregular;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Complete;
 
 class StdController extends Controller
 {
@@ -102,10 +103,22 @@ class StdController extends Controller
                                         ->whereNotIn('section_id',$drop_subject_id)
                                         ->latest()
                                         ->get();
+            $complete = Complete::where('student_id',auth()->id())->latest()->get();
+
+            $ann = $announcement->map(function ($item) use ($complete) {
+                foreach($complete as $complete){
+
+                    if($complete->announcement_id==$item->id){
+                        $item->status = 'Complete';
+                        break;
+                    }
+                } 
+                return $item;
+            });
             
             $response = [
                 'message' => 'Fetch specific student announcement!',
-                'data' => $announcement,
+                'data' => $ann,
             ];
 
             return response($response,200);  
@@ -123,13 +136,26 @@ class StdController extends Controller
         $user = $user->role;
         if($user=='student'){
             $announcement = Announcement::with('section','subject','instructor')->find($id);
-            
-            $response = [
-                'message' => 'Fetch specific student announcement!',
-                'data' => $announcement,
-            ];
+            $complete = Complete::where('student_id',auth()->id())->where('announcement_id',$id)->first();
+                
+           if($complete){
+                $response = [
+                    'message' => 'Fetch specific student announcement!',
+                    'status'=>'Complete',
+                    'data' => $announcement,
+                ];
 
-            return response($response,200);  
+                return response($response,200); 
+           }else{
+                $response = [
+                    'message' => 'Fetch specific student announcement!',
+                    'status'=>'Incomplete',
+                    'data' => $announcement,
+                ];
+
+                return response($response,200); 
+           }
+             
                 
         }else{
             $response = [

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SchoolYearController;
 use App\Http\Controllers\Instructor\IrregController;
 use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Admin\StudentSectionController;
+use App\Http\Controllers\Student\CompleteController;
 use App\Http\Controllers\Student\StdController;
 
 /*
@@ -186,7 +187,7 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     // Add Student
     Route::put('/student/add/{student_id}/{section_id}/{subject_id}',[StuController::class,'add']);
     // Drop Student
-    Route::put('/student/drop/{student_id}/{section_id}/{subject_id}',[StuController::class,'drop']);
+    Route::post('/student/drop/{student_id}/{section_id}/{subject_id}',[StuController::class,'drop']);
     /*===============End==============*/
 
     /*===============Instructor - Announcement==============*/
@@ -207,11 +208,21 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::get('/student/info/profile',[StdController::class,'show']);
     // Update student profile
     Route::put('/student/info/profile',[StdController::class,'update']);
+    
+    /*===============End==============*/
+
+    /*===============Student - Announcement==============*/
     // Get student announcement
     Route::get('/student/check/announcement',[StdController::class,'checkAnnouncement']);
     // Get student specific announcement
     Route::get('/student/check/announcement/{id}',[StdController::class,'checkSpecificAnnouncement']);
     /*===============End==============*/
+
+    /*===============Student - Complete Announcement==============*/
+    // Complete Announcement
+    Route::post('/student/complete/announcement/{id}',[CompleteController::class,'store']);
+    // Incomplete Announcement
+    Route::delete('/student/incomplete/announcement/{id}',[CompleteController::class,'destroy']);
 
 });
 
