@@ -207,6 +207,8 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::get('/student/info/profile',[StdController::class,'show']);
     // Update student profile
     Route::put('/student/info/profile',[StdController::class,'update']);
+    // Get student announcement
+    Route::get('/student/check/announcement',[StdController::class,'checkAnnouncement']);
     /*===============End==============*/
 
 });

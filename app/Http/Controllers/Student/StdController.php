@@ -74,6 +74,53 @@ class StdController extends Controller
             return response($response,401);
         }
     }
+    
+    public function checkAnnouncement(){
+        $user = auth()->user();
+        $user = $user->role;
+        if($user=='student'){
+            $student = Student::where('student_user_id',auth()->id())->first();
+
+            $irregular = Irregular::where('student_id',$student->id)->latest()->get();
+            $drop = Drop::where('student_id',$student->id)->latest()->get();
+
+            $section_id = [];
+            foreach($irregular as $irreg){
+                $section_id[]=$irreg->section_id;
+            }
+            $drop_section_id = [];
+            $drop_subject_id = [];
+            foreach($drop as $drop){
+                $drop_section_id[]=$drop->section_id;
+                $drop_subject_id[]=$drop->section_id;
+
+            }
+            array_push($section_id,$student->section_id);
+
+            $announcement = Announcement::with('section','subject')->whereIn('section_id',$section_id)
+                                        ->whereNotIn('section_id',$drop_section_id)
+                                        ->whereNotIn('section_id',$drop_subject_id)
+                                        ->latest()
+                                        ->get();
+            
+            $response = [
+                'message' => 'Fetch specific student announcement!',
+                'data' => $announcement,
+            ];
+
+            return response($response,200);  
+                
+        }else{
+            $response = [
+                'message' => 'User unauthorized.',
+            ];
+            return response($response,401);
+        }
+        
+    }
+
+
+    // Facebook Messenger Function
     public function studentProfile($fbID){
         $student = Student::where('facebook_id',$fbID)->first();
         if($student){
@@ -93,6 +140,7 @@ class StdController extends Controller
         }
        
     }
+
     public function studentAnnouncement($fbID){
 
         $student = Student::where('facebook_id',$fbID)->first();
@@ -213,4 +261,6 @@ class StdController extends Controller
             return response($response,200);
         }
     }
+
+
 }
