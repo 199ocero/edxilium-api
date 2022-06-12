@@ -39,6 +39,7 @@ class AnnController extends Controller
                     'act_link' => 'required|url',
                 ]);
                 $announcement = Announcement::create([
+                    'instructor_id' => auth()->id(),
                     'section_id' => $section_id,
                     'subject_id' => $subject_id,
                     'deadline' => $data['deadline'],

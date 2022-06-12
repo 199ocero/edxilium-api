@@ -118,6 +118,27 @@ class StdController extends Controller
         }
         
     }
+    public function checkSpecificAnnouncement($id){
+        $user = auth()->user();
+        $user = $user->role;
+        if($user=='student'){
+            $announcement = Announcement::with('section','subject','instructor')->find($id);
+            
+            $response = [
+                'message' => 'Fetch specific student announcement!',
+                'data' => $announcement,
+            ];
+
+            return response($response,200);  
+                
+        }else{
+            $response = [
+                'message' => 'User unauthorized.',
+            ];
+            return response($response,401);
+        }
+        
+    }
 
 
     // Facebook Messenger Function

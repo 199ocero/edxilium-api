@@ -209,6 +209,7 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::put('/student/info/profile',[StdController::class,'update']);
     // Get student announcement
     Route::get('/student/check/announcement',[StdController::class,'checkAnnouncement']);
+    Route::get('/student/check/announcement/{id}',[StdController::class,'checkSpecificAnnouncement']);
     /*===============End==============*/
 
 });
