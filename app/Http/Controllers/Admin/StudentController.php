@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -186,15 +187,18 @@ class StudentController extends Controller
         $user = auth()->user();
         $user = $user->role;
         if($user=='admin'){
-            $student = Student::destroy($id);
-
-            if($student==0){
+            
+            $student = Student::find($id);
+            
+            if(empty($student)){
                 $response = [
                     'message' => 'Student not found.'
                 ];
             }else{
+                User::destroy($student->student_user_id);
+                Student::destroy($id);
                 $response = [
-                    'message' => 'Student deleted successfully!'
+                    'message' => 'Student deleted successfully!',
                 ];
             }
             
