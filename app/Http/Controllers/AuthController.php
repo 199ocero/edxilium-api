@@ -65,49 +65,38 @@ class AuthController extends Controller
                 'email' => 'The provided credentials are incorrect.'
             ]);
         }else{
-            if($user->hasVerifiedEmail()){
-                if($user->status == 'activated'){
-                    $token = $user->createToken('token')->plainTextToken;
-                    if($user->role=='admin'){
-                        $response = [
-                            'message' => 'Admin login successfully!',
-                            'data' => $user,
-                            'role' => 'admin',
-                            'token' => $token
-                        ];
-                        return response($response,200);
-                    }else{
-                        $response = [
-                            'message' => 'Instructor login successfully!',
-                            'data' => $user,
-                            'role' => 'instructor',
-                            'token' => $token
-                        ];
-                        return response($response,200);
-                    }
-                }else{
-                    throw ValidationException::withMessages([
-                        'account' => 'Your account is deactivated. Please contact your school administrator.'
-                    ]);
-                }
-                
-            }else{
+            if($user->status == 'activated'){
                 $token = $user->createToken('token')->plainTextToken;
-                    if($user->role=='student'){
-                        $response = [
-                            'message' => 'Student login successfully!',
-                            'data' => $user,
-                            'role' => 'student',
-                            'token' => $token
-                        ];
-                        return response($response,200);
+                if($user->role=='admin'){
+                    $response = [
+                        'message' => 'Admin login successfully!',
+                        'data' => $user,
+                        'role' => 'admin',
+                        'token' => $token
+                    ];
+                    return response($response,200);
+                }else if($user->role=='instructor'){
+                    $response = [
+                        'message' => 'Instructor login successfully!',
+                        'data' => $user,
+                        'role' => 'instructor',
+                        'token' => $token
+                    ];
+                    return response($response,200);
                 }else{
-                    throw ValidationException::withMessages([
-                        'verified' => 'The email address is not verified. Please contact your school administrator.'
-                    ]);
+                    $response = [
+                        'message' => 'Student login successfully!',
+                        'data' => $user,
+                        'role' => 'student',
+                        'token' => $token
+                    ];
+                    return response($response,200);
                 }
-                
-            }
+            }else{
+                throw ValidationException::withMessages([
+                    'account' => 'Your account is deactivated. Please contact your school administrator.'
+                ]);
+            }    
         }
     }
     

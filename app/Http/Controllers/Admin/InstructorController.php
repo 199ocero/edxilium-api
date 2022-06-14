@@ -95,7 +95,7 @@ class InstructorController extends Controller
     
             // $email = $data['email'];
     
-            $instructor->sendEmailVerificationNotification();
+            // $instructor->sendEmailVerificationNotification();
             // Mail::to($data['email'])->send(new Credentials($email,$password));
     
     
